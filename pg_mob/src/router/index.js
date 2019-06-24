@@ -8,8 +8,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      component: () => import('@/views/viewRoot'),
+      name: 'viewRoot',
+      meta: {
+        title: 'viewRoot'
+      }
     }
   ]
 })
