@@ -1,5 +1,4 @@
 import Vue from 'vue'
-
 const tbButton =  Vue.component('tbButton', {
     render: function (createElement) {
       return createElement(

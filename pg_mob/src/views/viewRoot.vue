@@ -40,6 +40,8 @@
 import tbButton from '@/components/GPMob/tbButton'
 import tableMob from '@/components/GPMob/tableMob'
 import MTC from '@/tabConfig/member/memTableConfig'
+import getUserListData from '@/service/mock/mock'
+import {getUserList} from '@/service/axios/tabDataService'
 export default {
   components:{
     'tb-button':tbButton,
@@ -65,6 +67,9 @@ export default {
       aaa:'编辑'
     }
   },
+  created() {
+    this.getMemberList()
+  },
   methods: {    
     /**
      * @description 会员列表数据
@@ -81,10 +86,18 @@ export default {
       //   console.log('会员列表', res)
       //   this.tableData = res.data.data
       // })
-      getUserList().then(res => {
-        console.log('会员列表', res)
-        this.tableData = res.data.data
+
+      // getUserList().then(res => {
+      //   console.log('会员列表', res)
+      //   this.tableData = res.data.data
+      // })
+      
+      getUserList().then(res=>{
+        console.log('getUserList',res)
+        this.tableData = res.data
       })
+      // this.tableData = getUserListData.list
+      console.log('this.tableData',this.tableData)
     },    
     _upSV({...e}){
       console.log('回收筛选数据',{...e})      
