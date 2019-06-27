@@ -67,7 +67,7 @@
 #\====================================================================================================
 #2.tabsMob:Table模板
 #  v1.1.0
-#  该模板 应用场景 : 冗杂单一表单页面，不包含定制样式，定制需求的特殊表单；仅用于简化通用表单的替代；
+#  该模板 应用场景 : 冗杂单一tab页面，不包含定制样式及定制需求的特殊tab；仅用于简化通用tab的替代；
 #
 #	 特性：具有 通用简单可扩展性；只需要配置 tbsList 参数 即可
 #
@@ -141,6 +141,73 @@
 #     :tabsOnCList="f_tabsOnCList"  //注入事件集合 tabsOnCList:[{k:'name',mT:'click'},{k:'sex',mT:'mouseover'}],//该tab的事件集合
 #     @_name='tabEvns'              //监听_name 
 #     />
+#
+# 相关方法:
+#
+#   @@ _tabEvns  //该方法请到 tableMob文件内看详细文档
+#   @@ onCname  //该方法请到 tableMob文件内看详细文档
+#-----------------------------------------------------------------------------------------------------
+#  v1.1.2
+# 
+#
+#	 特性：支持多元，多例操作
+#
+#  版本新增：支持多元，多例操作
+#  版本优化：；
+#  // tabsOnCList:[{k:'name',mT:'click'},],//该tab的事件集合 @ k:key; mT:methodsType
+#
+#  详细变更:
+#  组件参数介绍：
+#  props:{     
+#  
+#    //tabsOnCList:[{k:'name',mT:'click'},],//该tab的事件集合 @ k:key; mT:methodsType
+#    tabsOnCList:{  
+#      type:Array,
+#      default:[],  
+#    }  
+#
+#
+#   例：
+#    <table-mob 
+#     :tableData='tableData'        //tableData 表格依赖数据
+#     :tableConfig='tableConfig'    //tableConfig 表格依赖配置文件
+#     :tabsOnCList="f_tabsOnCList"  //注入事件集合 tabsOnCList:[{k:'name',mT:'click'},{k:'sex',mT:'mouseover'}],//该tab的事件集合
+#     @_name='tabEvns'              //监听_name 
+#     />
+#
+# 相关方法:
+#
+#   @@ _tabEvns  //该方法请到 tableMob文件内看详细文档
+#   @@ onCname  //该方法请到 tableMob文件内看详细文档
+#-----------------------------------------------------------------------------------------------------
+#  v1.2.0
+# 
+#
+#	 特性：slot 组件与父组件的通信，简化开发流程；
+#
+#  版本新增：完全打通 slot 组件 的 通信问题；已经实现直接通信
+#  版本优化：；
+#  // tabsOnCList:[{k:'name',mT:'click'},],//该tab的事件集合 @ k:key; mT:methodsType
+#
+#  详细变更:
+#
+#
+#   例：
+#    <template v-slot:list='list' >           
+#         <span  v-for='(itm,idx) in list.list.list' @click="setLabelList(itm)"  :key='idx'>{{itm.id}}</span>
+#       </template>
+#
+#       <template v-slot:operating='operating' > 
+#         <el-button @click="thisChange({...operating})" type="text">编辑</el-button>
+#         <el-button @click="thisDel({...operating})" type="text">删除</el-button>
+#       </template>
+#    
+#    注:
+#      //通过 v-slot:operating='operating' 直接 获取到 子组件的单行数据   现在 可以 直接 
+#       @click="thisChange(operating)" 进行操作；不在依靠 旧版本的 事件代理机制;
+#          
+#     
+#     
 #
 # 相关方法:
 #
