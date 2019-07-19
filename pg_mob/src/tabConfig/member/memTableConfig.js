@@ -9,6 +9,10 @@
         freezeRight:true, //冻结尾列
       }            
     },
+    defaultSort:{
+      prop: 'label', 
+      order: 'descending'
+    },
     style:{
       width:'100%',
       height:600,
@@ -34,7 +38,7 @@
       'cn-name':'地区',   //中文名称
       'type':'string',    //数据类型
       'en-name':'address',   //英文名称
-      'method':'',     //该字段携带方法
+      'method':'1',     //该字段携带方法
       'key':'address',       //该字段的key值
       'width':'160px',
     },{
@@ -87,7 +91,7 @@
       'cn-name':'标签',   //中文名称
       'type':'string',    //数据类型
       'en-name':'label',   //英文名称
-      'method':'',     //该字段携带方法 :1.sort排序 , 2.冻结该列, 3...
+      'method':'1',     //该字段携带方法 :1.sort排序 , 2.冻结该列, 3...
       'key':'label',       //该字段的key值
     },{
       'cn-name':'微信关注时间',   //中文名称

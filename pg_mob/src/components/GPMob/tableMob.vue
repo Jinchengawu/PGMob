@@ -4,24 +4,30 @@
       ref="multipleTable"
       class="userTab"
       highlight-current-row
-      :data="tableData"
+      row-key='id'
+      :data="tableData"      
       tooltip-effect="dark"
       :style="{'width':tableConfig.style.width}"
       :height="tableConfig.style.height"
       size="mini"
       @selection-change="handleSelectionChange"
+      :default-sort="tableConfig.defaultSort"
     >
       <el-table-column
         v-if="tableConfig.status.isAllSet"
         type="selection"
         width="55"
+        show-overflow-tooltip
       />
       <el-table-column
         v-for="(item,index) in tableConfig.tabHeadConfig"
         :key="index"
         :label="item['cn-name']"
         :sortable="item['method'].indexOf('1')>-1"
+        :sort-method='_sortfn'
         :width="item.width"
+        show-overflow-tooltip
+        :fixed="item['key']=='operating'?'right':false"
       >
         <template slot-scope="scope">
           <span
@@ -69,28 +75,36 @@ export default {
     // tableData 表格依赖数据
     tableData: {
       type: Array,
-      default: []
+      default() {
+        return []
+      }
     },
     // tableConfig 表格依赖配置文件
     tableConfig: {
       type: Object,
-      default: {
-        tabHeadConfig: [],
-        style: {
-          width: '100%',
-          height: 600
+      default() {
+        return {
+          tabHeadConfig: [],
+          style: {
+            width: '100%',
+            height: 600
+          }
         }
       }
     },
     // 注入事件集合 tabsOnCList:[{k:'name',mT:'click'},],//该tab的事件集合 @ k:key; mT:methodsType
     tabsOnCList: {
       type: Array,
-      default: []
+      default: () => {
+        return []
+      }
     },
     // s_tabsSlots ,插槽集合 注入插槽集合 使 tabMob 更具扩展性；
     tabsSlots: {
       type: Object,
-      default: {}
+      default() {
+        return {}
+      }
     }
   },
   component: {
@@ -98,21 +112,32 @@ export default {
   data() {
     return {
       formMobForm: {},
-      formLabelWidth: "120px",
-      MO: null, //methods Object  ,因为将 数组 转换成 对象后可以 更简练的提取到 对应key的方法;
-      ensKeys: [], //简易事件队列 ，只存储 事件的 key
-      deBug: false,
-    };
+      formLabelWidth: '120px',
+      MO: null, // methods Object  ,因为将 数组 转换成 对象后可以 更简练的提取到 对应key的方法;
+      ensKeys: [], // 简易事件队列 ，只存储 事件的 key
+      deBug: false
+
+    }
   },
   computed: {},
   watch: {
     formMobForm(nv, ov) {
       console.log(ov, nv)
-    },    
+    },
+    // 监听recoverType何时回收;
+    recoverType(nv, ov) {
+      console.log('监听recoverType何时回收', ov, nv)
+      if (nv) {
+        this._returnFormData()
+      }
+    }
   },
   created() {
     // this.tabsOnCList = this.tabsOnCList.length==0?this.tabsOnCList:[]
     // console.log('对 事件集 进行管理；', this.tabsOnCList)
+    //对tabSot管理
+    this._initDefaultSort()    
+    
     // 对 事件集 进行管理；
     this._initTabsOnCList()
   },
@@ -198,13 +223,20 @@ export default {
     // 以下为示例 其父级组件应该做的事情 onCn-1.1.y
     onCname(item, v) {
       console.log('onCname', item, v)
+    },
+    //对 列表的排序管理
+    _initDefaultSort(){
+      let defaultSort = this.tableConfig.defaultSort || {prop: 'id', order: 'descending'}
+      this.$set(this.tableConfig,'defaultSort',defaultSort) 
+      console.log('this.tableConfig',this.tableConfig)
+    },
+    //自定义排序
+    _sortfn(a,b){
+      // console.log('自定义排序',a,b)
     }
   }
 }
 </script>
 
 <style lang="scss" scope>
-.tableMob {
-  // background: #999;
-}
 </style>

@@ -16,23 +16,36 @@
     </tb-button>
     tabMob
     <!-- tabMob -->
-      <table-mob 
-      :tableData='tableData' 
-      :tableConfig='tableConfig' 
-      :tabsOnCList="f_tabsOnCList"  
-      :tabsSlots ='f_tabsSlots'
-      @_selectionChange='getTabSelList'
-      @_name='tabEvns'      
-      @_sex ='tabEvns'
-      @_operating ='tabEvns'
-      ref='table_mob'
-      >
-        <template v-slot:operating >
-          <el-button @click="integralThis('change')"  key='change' type="text">{{aaa}}</el-button>
-          <el-button @click="integralThis('look')" key='look' type="text">查看</el-button>
-          <el-button @click="integralThis('del')"  key='del' type="text">删除</el-button>
-        </template>
-      </table-mob>
+     <table-mob
+      ref="table_mob"
+      :table-data="tableData"
+      :table-config="tableConfig"
+      :tabs-on-c-list="f_tabsOnCList"
+      :tabs-slots="f_tabsSlots"
+      @_selectionChange="getTabSelList"
+      @_name="tabEvns"
+    >
+      <template v-slot:operating="operating">
+        <el-button
+          key="change"
+          type="text"
+          size="mini"
+          @click="update(operating.operating)"
+        >{{ aaa }}</el-button>
+        <el-button
+          key="look"
+          type="text"
+          size="mini"
+          @click="look(operating)"
+        >查看</el-button>
+        <el-button
+          key="del"
+          size="mini"
+          type="text"
+          @click="del(operating.operating)"
+        >删除</el-button>
+      </template>
+    </table-mob>
   </div>
 </template>
 
@@ -127,28 +140,25 @@ export default {
     onCname(v){
       console.log('onCname',v)
       this.$router.push({name:'member-user-userManagement-memInfoView',query:{userData:v}})
+    },    
+    update(v){
+      console.log('update',v)
     },
-    onCsex(v){
-      console.log('onCsex',v)
+    look(v){
+      console.log('look',v)
     },
-    onCintegral(v){
-      console.log('onCintegral',v)      
+    del(v){
+      console.log('del',v)
     },
-    onCoperating(v){
-      console.log('onCoperating',v)
-      console.log(this.integralType,222222)
-      if(this.integralType=='change'){
-        this.aaa='编辑过'
-      }
+    getTabSelList(v) {
+      console.log('getTabSelList', v)
+      this.tabSelList = v
+      const tabSelIdList = []
+      v.map(d => {
+        tabSelIdList.push(d.id)
+      })
+      this.tabSelIdList = tabSelIdList
     },
-    getTabSelList(v){
-      console.log('getTabSelList',v)
-    },
-    integralThis(type,v){
-      this.integralType = type
-      console.log(type,v,111111)
-    },
-    //click
   }
 }
 </script>
